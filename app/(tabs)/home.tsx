@@ -1,4 +1,3 @@
-// app/(tabs)/index.tsx
 import Header from "@/components/Header";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -6,7 +5,6 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <Header
-        title="EcoBin"
         onNotificationPress={() => console.log("Notifications clicked")}
         onProfilePress={() => console.log("Profile clicked")}
       />

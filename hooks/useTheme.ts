@@ -1,4 +1,3 @@
-// hooks/useTheme.ts
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Appearance } from "react-native";
@@ -8,21 +7,20 @@ export function useTheme() {
 
   useEffect(() => {
     const loadTheme = async () => {
-      const stored = await AsyncStorage.getItem("theme");
-      if (stored === "dark") setIsDarkMode(true);
-      else if (stored === "light") setIsDarkMode(false);
-      else {
-        const system = Appearance.getColorScheme();
-        setIsDarkMode(system === "dark");
+      const stored = await AsyncStorage.getItem("darkMode");
+      if (stored !== null) {
+        setIsDarkMode(stored === "true");
+      } else {
+        setIsDarkMode(Appearance.getColorScheme() === "dark");
       }
     };
     loadTheme();
   }, []);
 
   const toggleDarkMode = async () => {
-    const newValue = !isDarkMode;
-    setIsDarkMode(newValue);
-    await AsyncStorage.setItem("theme", newValue ? "dark" : "light");
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    await AsyncStorage.setItem("darkMode", newMode.toString());
   };
 
   return { isDarkMode, toggleDarkMode };

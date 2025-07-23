@@ -1,27 +1,38 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
-import { Platform, StatusBar } from "react-native";
+import { Platform, StatusBar, useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  const backgroundColor = isDark ? "#1c1c1e" : "#ffffffee";
+  const activeTintColor = isDark ? "#90ee90" : "#2e7d32";
+  const inactiveTintColor = isDark ? "#ccc" : "#9e9e9e";
 
   return (
     <>
-      {Platform.OS === "android" && <StatusBar barStyle="dark-content" backgroundColor="#ffffff" translucent />}
+      {Platform.OS === "android" && (
+        <StatusBar
+          barStyle={isDark ? "light-content" : "dark-content"}
+          backgroundColor={isDark ? "#1c1c1e" : "#ffffff"}
+          translucent
+        />
+      )}
 
       <Tabs
-        screenOptions={{
+        screenOptions={() => ({
           headerShown: false,
-          tabBarActiveTintColor: "#2e7d32",
-          tabBarInactiveTintColor: "#9e9e9e",
+          tabBarActiveTintColor: activeTintColor,
+          tabBarInactiveTintColor: inactiveTintColor,
           tabBarStyle: {
             position: "absolute",
             bottom: insets.bottom,
             left: 20,
             right: 20,
             height: 60,
-            backgroundColor: "#ffffffee",
+            backgroundColor: isDark ? "#1c1c1e" : "#ffffffee",
             borderRadius: 20,
             paddingTop: 5,
             paddingBottom: 10,
@@ -36,8 +47,9 @@ export default function TabLayout() {
             fontSize: 9,
             fontWeight: "600",
           },
-        }}
+        })}
       >
+
         <Tabs.Screen
           name="home"
           options={{

@@ -1,76 +1,81 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { useTheme } from "@/hooks/useTheme";
+import { Feather, Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+
 export default function SettingsScreen() {
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
-  const router = useRouter();
+  const [faceIDEnabled, setFaceIDEnabled] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-
-      {/* Preferences Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Preferences</Text>
-
-        <View style={styles.settingRow}>
-          <Ionicons name="notifications-outline" size={22} color="#5e7d63" />
-          <Text style={styles.label}>Notifications</Text>
-          <Switch
-            value={notificationsEnabled}
-            onValueChange={setNotificationsEnabled}
-            trackColor={{ false: "#ccc", true: "#b7dfb2" }}
-            thumbColor={Platform.OS === "android" ? "#5e7d63" : ""}
-          />
-        </View>
-
-        <View style={styles.settingRow}>
-          <Ionicons name="contrast-outline" size={22} color="#5e7d63" />
-          <Text style={styles.label}>Dark Mode</Text>
-          <Switch
-            value={darkMode}
-            onValueChange={setDarkMode}
-            trackColor={{ false: "#ccc", true: "#b7dfb2" }}
-            thumbColor={Platform.OS === "android" ? "#5e7d63" : ""}
-          />
+    <ScrollView style={styles.container} contentInsetAdjustmentBehavior="automatic">
+      {/* Profile Header */}
+      <View style={styles.profileHeader}>
+        <Image source={{ uri: "https://i.pravatar.cc/100?u=user" }} style={styles.avatar} />
+        <View>
+          <Text style={styles.name}>Angel Canete</Text>
+          <Text style={styles.username}>@angel</Text>
         </View>
       </View>
 
-      {/* Account Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account</Text>
-
-        <TouchableOpacity style={styles.settingRow} onPress={() => router.push("/profile/edit-profile")}>
-          <Ionicons name="person-outline" size={22} color="#5e7d63" />
-          <Text style={styles.label}>Edit Profile</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.settingRow}
-          onPress={() => {
-            router.replace("/");
-          }}
-        >
-          <Ionicons name="log-out-outline" size={22} color="#a94442" />
-          <Text style={[styles.label, { color: "#a94442" }]}>Logout</Text>
-        </TouchableOpacity>
+      {/* Account */}
+      <Text style={styles.sectionHeader}>ACCOUNT</Text>
+      <View style={styles.card}>
+        <SettingRow label="Edit Profile" icon="user" onPress={() => {}} />
+        <SettingRow label="Change Password" icon="lock" onPress={() => {}} />
       </View>
 
-      {/* Others Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Others</Text>
-
-        <TouchableOpacity style={styles.settingRow}>
-          <Ionicons name="help-circle-outline" size={22} color="#5e7d63" />
-          <Text style={styles.label}>Help Center</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.settingRow}>
-          <Ionicons name="information-circle-outline" size={22} color="#5e7d63" />
-          <Text style={styles.label}>App Version 1.0.0</Text>
-        </TouchableOpacity>
+      {/* Preferences */}
+      <Text style={styles.sectionHeader}>PREFERENCES</Text>
+      <View style={styles.card}>
+        <SettingSwitch label="Dark Mode" icon="moon" value={isDarkMode} onValueChange={toggleDarkMode} />
+        <SettingSwitch
+          label="Notifications"
+          icon="bell"
+          value={notificationsEnabled}
+          onValueChange={setNotificationsEnabled}
+        />
+        <SettingSwitch label="Face ID" icon="smile" value={faceIDEnabled} onValueChange={setFaceIDEnabled} />
       </View>
+
+      {/* Support */}
+      <Text style={styles.sectionHeader}>SUPPORT</Text>
+      <View style={styles.card}>
+        <SettingRow label="Help Center" icon="help-circle" onPress={() => {}} />
+        <SettingRow label="Terms of Service" icon="file-text" onPress={() => {}} />
+        <SettingRow label="Privacy Policy" icon="shield" onPress={() => {}} />
+        <SettingRow label="Logout" icon="log-out" onPress={() => {}} isDestructive />
+      </View>
+
+      {/* App Info */}
+      <View style={styles.footer}>
+        <Text style={styles.versionText}>App Version 1.0.0</Text>
+      </View>
+    </ScrollView>
+  );
+}
+
+function SettingRow({ label, icon, onPress, isDestructive = false }: any) {
+  return (
+    <TouchableOpacity style={styles.row} onPress={onPress}>
+      <View style={styles.rowLeft}>
+        <Feather name={icon} size={20} color={isDestructive ? "#ff3b30" : "#555"} />
+        <Text style={[styles.label, isDestructive && { color: "#ff3b30" }]}>{label}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={16} color="#aaa" />
+    </TouchableOpacity>
+  );
+}
+
+function SettingSwitch({ label, icon, value, onValueChange }: any) {
+  return (
+    <View style={styles.row}>
+      <View style={styles.rowLeft}>
+        <Feather name={icon} size={20} color="#555" />
+        <Text style={styles.label}>{label}</Text>
+      </View>
+      <Switch value={value} onValueChange={onValueChange} />
     </View>
   );
 }
@@ -78,38 +83,68 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9f5",
-    paddingTop: 60,
+    backgroundColor: "#f2f2f7",
     paddingHorizontal: 20,
+    paddingTop: 40,
   },
-  title: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#3c614d",
-    marginBottom: 24,
-  },
-  section: {
-    marginBottom: 28,
-  },
-  sectionTitle: {
-    fontSize: 15,
+  sectionHeader: {
+    fontSize: 13,
     fontWeight: "600",
-    color: "#6b8c78",
+    color: "#888",
+    marginTop: 30,
     marginBottom: 10,
   },
-  settingRow: {
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    overflow: "hidden",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 18,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#eee",
+  },
+  rowLeft: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#e9f1e8",
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 10,
+    gap: 12,
   },
   label: {
-    flex: 1,
-    marginLeft: 12,
     fontSize: 16,
-    color: "#3c614d",
+    color: "#222",
+  },
+  profileHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
+    gap: 16,
+  },
+  avatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+    backgroundColor: "#ccc",
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#111",
+  },
+  username: {
+    fontSize: 14,
+    color: "#666",
+  },
+  footer: {
+    marginTop: 50,
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  versionText: {
+    fontSize: 13,
+    color: "#999",
   },
 });

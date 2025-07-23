@@ -17,13 +17,10 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
-    setLoading(true);
     setTimeout(() => {
-      setLoading(false);
-      router.replace("/(tabs)/index");
+      router.replace("/(tabs)/home");
     }, 1500);
   };
 
@@ -80,8 +77,8 @@ export default function LoginScreen() {
         </View>
 
         {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
-          <Text style={styles.loginButtonText}>{loading ? "Signing In..." : "Sign In"}</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Sign In</Text>
         </TouchableOpacity>
 
         {/* Social Login */}

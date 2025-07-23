@@ -1,12 +1,29 @@
-import Header from "@/components/Header";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import Header from '@/components/Header';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../navigation';
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  const handleNotificationPress = () => {
+    navigation.navigate('NotificationScreen'); // Make sure this matches your navigator
+  };
+
+  const handleProfilePress = () => {
+    navigation.navigate('ProfileScreen'); // Make sure this matches your navigator
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <Header
-        onNotificationPress={() => console.log("Notifications clicked")}
-        onProfilePress={() => console.log("Profile clicked")}
+        style={styles.headerSpacing}
+        onNotificationPress={handleNotificationPress}
+        onProfilePress={handleProfilePress}
       />
 
       {/* Overview Cards */}
@@ -43,6 +60,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingHorizontal: 20,
     paddingTop: 50,
+  },
+  headerSpacing: {
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 18,

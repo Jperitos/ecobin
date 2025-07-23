@@ -15,7 +15,7 @@ export default function SettingsScreen() {
         <Image source={{ uri: "https://i.pravatar.cc/100?u=user" }} style={styles.avatar} />
         <View>
           <Text style={styles.name}>Angel Canete</Text>
-          <Text style={styles.username}>@angel</Text>
+          <Text style={styles.username}>@angelcanete@gmail.com</Text>
         </View>
       </View>
 
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "600",
     color: "#888",
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 10,
   },
   card: {

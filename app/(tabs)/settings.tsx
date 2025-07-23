@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
-
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings</Text>
@@ -41,12 +41,17 @@ export default function SettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Account</Text>
 
-        <TouchableOpacity style={styles.settingRow}>
+        <TouchableOpacity style={styles.settingRow} onPress={() => router.push("/profile/edit-profile")}>
           <Ionicons name="person-outline" size={22} color="#5e7d63" />
           <Text style={styles.label}>Edit Profile</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingRow}>
+        <TouchableOpacity
+          style={styles.settingRow}
+          onPress={() => {
+            router.replace("/");
+          }}
+        >
           <Ionicons name="log-out-outline" size={22} color="#a94442" />
           <Text style={[styles.label, { color: "#a94442" }]}>Logout</Text>
         </TouchableOpacity>

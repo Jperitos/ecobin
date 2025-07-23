@@ -17,7 +17,7 @@ export default function RegisterScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace("/(tabs)/index");
+      router.replace("/(auth)/login");
     }, 1500);
   };
 
@@ -37,8 +37,8 @@ export default function RegisterScreen() {
 
         {/* Logo + Brand */}
         <View style={styles.upperContainer}>
-          <Text style={styles.logoText}>Eco Bin</Text>
-          <Text style={styles.description}>Create an account to begin your journey.</Text>
+          <Text style={styles.logoText}>ECOBIN</Text>
+          <Text style={styles.description}>Your cleaner choices start here</Text>
         </View>
 
         {/* Inputs */}
@@ -135,7 +135,8 @@ const styles = StyleSheet.create({
   },
   upperContainer: {
     alignItems: "center",
-    marginBottom: 24,
+    marginTop: 20,
+    marginBottom: 5,
   },
   description: {
     fontSize: 14,

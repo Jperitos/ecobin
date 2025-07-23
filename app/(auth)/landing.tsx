@@ -33,8 +33,8 @@ export default function WelcomeScreen() {
           }}
         >
           <Image
-            source={require("@/assets/images/adaptive-icon.png")}
-            style={{ width: 250, height: 250, resizeMode: "contain", marginTop: 50 }}
+            source={require("@/assets/icon/logo-final2.png")}
+            style={{ width: 250, height: 250, resizeMode: "contain", marginTop: 100 }}
           />
         </View>
 
@@ -49,9 +49,10 @@ export default function WelcomeScreen() {
             style={{
               fontSize: 30,
               fontFamily: "Poppins_700Bold",
+              fontWeight: "bold",
               marginBottom: 10,
               textAlign: "center",
-              letterSpacing: 3,
+              letterSpacing: 4,
               color: "#000000",
             }}
           >
@@ -104,6 +105,8 @@ export default function WelcomeScreen() {
             style={{
               fontSize: 25,
               fontFamily: "Poppins_700Bold",
+              fontWeight: "bold",
+              textAlign: "center",
               letterSpacing: 4,
               color: "#000000",
             }}

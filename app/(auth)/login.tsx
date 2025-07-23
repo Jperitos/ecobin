@@ -17,9 +17,12 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
+    setLoading(true);
     setTimeout(() => {
+      setLoading(false);
       router.replace("/(tabs)/home");
     }, 1500);
   };
@@ -39,9 +42,9 @@ export default function LoginScreen() {
 
         {/* Branding */}
         <View style={styles.upperContainer}>
-          <Image source={require("@/assets/images/adaptive-icon.png")} style={styles.logo} />
-          <Text style={styles.logoText}>Eco Bin</Text>
-          <Text style={styles.description}>Smart Waste Management Starts Here</Text>
+          <Image source={require("@/assets/icon/logo-final2.png")} style={styles.logo} />
+          <Text style={styles.logoText}>ECOBIN</Text>
+          <Text style={styles.description}> Your cleaner choices start here </Text>
         </View>
 
         {/* Inputs */}
@@ -77,8 +80,12 @@ export default function LoginScreen() {
         </View>
 
         {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Sign In</Text>
+        <TouchableOpacity
+          style={[styles.loginButton, loading && styles.disabledButton]}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          <Text style={styles.loginButtonText}>{loading ? "Signing In..." : "Sign In"}</Text>
         </TouchableOpacity>
 
         {/* Social Login */}
@@ -183,12 +190,18 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 30,
     alignItems: "center",
+    marginTop: 0,
     marginBottom: 20,
   },
+
   loginButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  disabledButton: {
+    backgroundColor: "#2e7d32",
   },
   IconsContainer: {
     marginTop: 10,

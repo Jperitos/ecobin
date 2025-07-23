@@ -1,10 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
 
 export default function MapScreen() {
   return (
     <View style={styles.container}>
-      <MapView
+      {/* <MapView
         style={StyleSheet.absoluteFillObject}
         initialRegion={{
           latitude: 10.2098,
@@ -18,7 +17,7 @@ export default function MapScreen() {
           title="City of Naga"
           description="EcoBin starting location"
         />
-      </MapView>
+      </MapView> */}
     </View>
   );
 }

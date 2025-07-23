@@ -1,6 +1,15 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 export default function ChangePasswordScreen() {
     const router = useRouter();
@@ -26,38 +35,50 @@ export default function ChangePasswordScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Change Password</Text>
+            {/* Header */}
+            <View style={styles.headerContainer}>
+                <TouchableOpacity
+                    onPress={() => router.replace("/(tabs)/settings")}
+                    style={styles.backButton}
+                >
+                    <Ionicons name="arrow-back" size={24} color="black" />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>Change Password</Text>
+            </View>
 
-            <Text style={styles.label}>Current Password</Text>
-            <TextInput
-                style={styles.input}
-                secureTextEntry
-                placeholder="Enter current password"
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
-            />
+            {/* Form */}
+            <ScrollView contentContainerStyle={styles.form}>
+                <Text style={styles.label}>Current Password</Text>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry
+                    placeholder="Enter current password"
+                    value={currentPassword}
+                    onChangeText={setCurrentPassword}
+                />
 
-            <Text style={styles.label}>New Password</Text>
-            <TextInput
-                style={styles.input}
-                secureTextEntry
-                placeholder="Enter new password"
-                value={newPassword}
-                onChangeText={setNewPassword}
-            />
+                <Text style={styles.label}>New Password</Text>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry
+                    placeholder="Enter new password"
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                />
 
-            <Text style={styles.label}>Confirm New Password</Text>
-            <TextInput
-                style={styles.input}
-                secureTextEntry
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-            />
+                <Text style={styles.label}>Confirm New Password</Text>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry
+                    placeholder="Confirm new password"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                />
 
-            <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
-                <Text style={styles.buttonText}>Save Password</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+                    <Text style={styles.buttonText}>Save Password</Text>
+                </TouchableOpacity>
+            </ScrollView>
         </View>
     );
 }
@@ -65,21 +86,38 @@ export default function ChangePasswordScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 60,
-        paddingHorizontal: 20,
         backgroundColor: "#f9f9f9",
+        paddingTop: 60,
     },
-    header: {
-        fontSize: 22,
+    headerContainer: {
+        position: "relative",
+        height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    backButton: {
+        position: "absolute",
+        left: 20,
+        top: 13,
+    },
+    headerText: {
+        fontSize: 20,
         fontWeight: "bold",
-        marginBottom: 30,
+        textAlign: "center",
+    },
+    form: {
+        paddingHorizontal: 30,
+        alignItems: "center",
     },
     label: {
+        alignSelf: "flex-start",
         fontSize: 14,
-        marginBottom: 6,
         color: "#444",
+        marginBottom: 6,
     },
     input: {
+        width: "100%",
         height: 45,
         borderWidth: 1,
         borderColor: "#ccc",
@@ -89,10 +127,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     button: {
-        backgroundColor: "#007AFF",
+        backgroundColor: "#2e7d32",
         paddingVertical: 14,
         borderRadius: 10,
         alignItems: "center",
+        width: "100%",
         marginTop: 10,
     },
     buttonText: {

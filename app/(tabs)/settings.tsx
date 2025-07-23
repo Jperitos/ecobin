@@ -9,7 +9,6 @@ export default function SettingsScreen() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [faceIDEnabled, setFaceIDEnabled] = useState(false);
-
   const router = useRouter();
 
   const handleLogout = () => {
@@ -19,8 +18,8 @@ export default function SettingsScreen() {
         text: "Logout",
         style: "destructive",
         onPress: async () => {
-          await AsyncStorage.clear(); 
-          router.replace("/landing"); 
+          await AsyncStorage.clear();
+          router.replace("/landing");
         },
       },
     ]);
@@ -60,9 +59,9 @@ export default function SettingsScreen() {
       {/* Support */}
       <Text style={styles.sectionHeader}>SUPPORT</Text>
       <View style={styles.card}>
-        <SettingRow label="Help Center" icon="help-circle" onPress={() => {}} />
-        <SettingRow label="Terms of Service" icon="file-text" onPress={() => {}} />
-        <SettingRow label="Privacy Policy" icon="shield" onPress={() => {}} />
+        <SettingRow label="Help Center" icon="help-circle" onPress={() => { }} />
+        <SettingRow label="Terms of Service" icon="file-text" onPress={() => { }} />
+        <SettingRow label="Privacy Policy" icon="shield" onPress={() => { }} />
         <SettingRow label="Logout" icon="log-out" onPress={handleLogout} isDestructive />
       </View>
 

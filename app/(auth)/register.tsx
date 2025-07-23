@@ -12,7 +12,7 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleRegister = () => {
     setLoading(true);
     setTimeout(() => {
@@ -63,12 +63,22 @@ export default function RegisterScreen() {
           </View>
 
           <Label style={{ marginTop: 16 }}>Confirm Password</Label>
-          <Input
-            placeholder="Re-enter your password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry={!showPassword}
-          />
+          <View style={styles.passwordWrapper}>
+            <Input
+              placeholder="Re-enter your password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry={!showConfirmPassword}
+            />
+            <TouchableOpacity onPress={() => setShowConfirmPassword((prev) => !prev)} style={styles.eyeIcon}>
+              <Ionicons
+                name={showConfirmPassword ? "eye-off" : "eye"}
+                size={18}
+                color="#999"
+                style={{ marginTop: 5 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Register Button */}
@@ -78,7 +88,7 @@ export default function RegisterScreen() {
 
         {/* Social Sign-In */}
         <View style={styles.IconsContainer}>
-          <Text style={styles.signWith}>or sign in with</Text>
+          <Text style={styles.signWith}>or sign up with</Text>
           <View style={styles.socialContainer}>
             <TouchableOpacity>
               <AntDesign name="google" size={20} color="#333" />
@@ -157,7 +167,7 @@ const styles = StyleSheet.create({
   eyeIcon: {
     position: "absolute",
     right: 10,
-    top: "20%",
+    top: "12%",
   },
   registerButton: {
     backgroundColor: "#2e7d32",

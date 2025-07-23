@@ -1,12 +1,30 @@
 import { useTheme } from "@/hooks/useTheme";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function SettingsScreen() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [faceIDEnabled, setFaceIDEnabled] = useState(false);
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    Alert.alert("Logout", "Are you sure you want to log out?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Logout",
+        style: "destructive",
+        onPress: async () => {
+          await AsyncStorage.clear(); // Clear session/token
+          router.replace("/"); // Redirect to landing page
+        },
+      },
+    ]);
+  };
 
   return (
     <ScrollView style={styles.container} contentInsetAdjustmentBehavior="automatic">
@@ -45,7 +63,7 @@ export default function SettingsScreen() {
         <SettingRow label="Help Center" icon="help-circle" onPress={() => {}} />
         <SettingRow label="Terms of Service" icon="file-text" onPress={() => {}} />
         <SettingRow label="Privacy Policy" icon="shield" onPress={() => {}} />
-        <SettingRow label="Logout" icon="log-out" onPress={() => {}} isDestructive />
+        <SettingRow label="Logout" icon="log-out" onPress={handleLogout} isDestructive />
       </View>
 
       {/* App Info */}

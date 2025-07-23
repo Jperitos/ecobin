@@ -19,8 +19,8 @@ export default function SettingsScreen() {
         text: "Logout",
         style: "destructive",
         onPress: async () => {
-          await AsyncStorage.clear(); // Clear session/token
-          router.replace("/"); // Redirect to landing page
+          await AsyncStorage.clear(); 
+          router.replace("/landing"); 
         },
       },
     ]);
@@ -40,8 +40,8 @@ export default function SettingsScreen() {
       {/* Account */}
       <Text style={styles.sectionHeader}>ACCOUNT</Text>
       <View style={styles.card}>
-        <SettingRow label="Edit Profile" icon="user" onPress={() => {}} />
-        <SettingRow label="Change Password" icon="lock" onPress={() => {}} />
+        <SettingRow label="Edit Profile" icon="user" onPress={() => router.push("/Settings/edit-profile")} />
+        <SettingRow label="Change Password" icon="lock" onPress={() => router.push("/Settings/change-password")} />
       </View>
 
       {/* Preferences */}

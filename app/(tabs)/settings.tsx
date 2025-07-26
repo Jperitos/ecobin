@@ -46,15 +46,20 @@ export default function SettingsScreen() {
       contentInsetAdjustmentBehavior="automatic"
     >
       {/* Profile Header */}
-      <View style={styles.profileHeader}>
-        <Image
-          source={{ uri: "https://i.pravatar.cc/100?u=user" }}
-          style={styles.avatar}
-        />
-        <View>
-          <Text style={[styles.name, { color: textColor }]}>Angel Canete</Text>
-          <Text style={[styles.username, { color: secondaryTextColor }]}>@angelcanete@gmail.com</Text>
+      <View style={styles.profileContainer}>
+        <View style={styles.profileHeader}>
+          <Image
+            source={{ uri: "https://i.pravatar.cc/100?u=user" }}
+            style={styles.avatar}
+          />
+          <View>
+            <Text style={[styles.name, { color: textColor }]}>Angel Canete</Text>
+            <Text style={[styles.username, { color: secondaryTextColor }]}>
+              @angelcanete@gmail.com
+            </Text>
+          </View>
         </View>
+        <View style={[styles.divider, { backgroundColor: borderColor }]} />
       </View>
 
       {/* Account */}
@@ -103,9 +108,24 @@ export default function SettingsScreen() {
       {/* Support */}
       <Text style={[styles.sectionHeader, { color: secondaryTextColor }]}>SUPPORT</Text>
       <View style={[styles.card, { backgroundColor: cardColor }]}>
-        <SettingRow label="Help Center" icon="help-circle" onPress={() => { }} isDarkMode={isDarkMode} />
-        <SettingRow label="Terms of Service" icon="file-text" onPress={() => { }} isDarkMode={isDarkMode} />
-        <SettingRow label="Privacy Policy" icon="shield" onPress={() => { }} isDarkMode={isDarkMode} />
+        <SettingRow
+          label="Help Center"
+          icon="help-circle"
+          onPress={() => router.push("/ProfileSettings/help-center")}
+          isDarkMode={isDarkMode}
+        />
+        <SettingRow
+          label="Terms of Service"
+          icon="file-text"
+          onPress={() => router.push("/ProfileSettings/terms-of-service")}
+          isDarkMode={isDarkMode}
+        />
+        <SettingRow
+          label="Privacy Policy"
+          icon="shield"
+          onPress={() => router.push("/ProfileSettings/privacy-policy")}
+          isDarkMode={isDarkMode}
+        />
         <SettingRow label="Logout" icon="log-out" onPress={handleLogout} isDestructive isDarkMode={isDarkMode} />
       </View>
 
@@ -153,7 +173,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 60,
   },
   sectionHeader: {
     fontSize: 13,
@@ -180,10 +200,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
   },
+  profileContainer: {
+    marginBottom: 20,
+  },
   profileHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 30,
     gap: 16,
   },
   avatar: {
@@ -198,6 +220,11 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 14,
+  },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    width: "100%",
+    marginTop: 16,
   },
   footer: {
     marginTop: 50,

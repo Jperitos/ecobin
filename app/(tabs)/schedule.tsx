@@ -12,12 +12,10 @@ export default function ScheduleScreen() {
   return (
     <View style={styles.container}>
       <Header
-        title="EcoBin"
         onNotificationPress={() => console.log("Notifications clicked")}
         onProfilePress={() => console.log("Profile clicked")}
       />
       <Text style={styles.title}>Your Collection Schedule</Text>
-      <Text style={styles.subtitle}>View only – assigned routes & days</Text>
 
       <Calendar
         markedDates={markedDates}

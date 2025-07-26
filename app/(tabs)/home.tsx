@@ -1,8 +1,9 @@
 import Header from '@/components/Header';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RootStackParamList } from '../navigation';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
@@ -11,44 +12,55 @@ export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const handleNotificationPress = () => {
-    navigation.navigate('NotificationScreen'); // Make sure this matches your navigator
+    navigation.navigate('NotificationScreen');
   };
 
   const handleProfilePress = () => {
-    navigation.navigate('ProfileScreen'); // Make sure this matches your navigator
+    navigation.navigate('ProfileScreen');
   };
 
+  const bins = [
+    { id: 'Bin A1', level: 85, location: 'Main Entrance' },
+    { id: 'Bin B2', level: 40, location: 'Cafeteria' },
+    { id: 'Bin C3', level: 20, location: 'Library Hall' },
+  ];
+
+  const logs = [
+    '🟢 Emptied Bin A1 – 9:42 AM',
+    '🟢 Route B2 Started – 8:15 AM',
+    '🟢 Logged In – 7:58 AM',
+  ];
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Header
-        style={styles.headerSpacing}
-        onNotificationPress={handleNotificationPress}
-        onProfilePress={handleProfilePress}
-      />
-
-      {/* Overview Cards */}
-      <Text style={styles.sectionTitle}>Overview</Text>
-      <View style={styles.cardRow}>
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Collected Today</Text>
-          <Text style={styles.cardValue}>12 Bins</Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Routes Active</Text>
-          <Text style={styles.cardValue}>3</Text>
-        </View>
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
+      <View style={styles.header}>
+        <Header onNotificationPress={handleNotificationPress} onProfilePress={handleProfilePress} />
       </View>
 
-      {/* Activity Logs */}
+      <Text style={styles.sectionTitle}>Bin Overview</Text>
+      {bins.map((bin, index) => (
+        <View key={index} style={styles.card}>
+          <Text style={styles.cardTitle}>{bin.id}</Text>
+          <Text style={styles.cardSub}>{bin.location}</Text>
+          <Text style={styles.cardValue}>{bin.level}% full</Text>
+        </View>
+      ))}
+
       <Text style={styles.sectionTitle}>Activity Logs</Text>
-      <View style={styles.logItem}>
-        <Text style={styles.logText}>🟢 Collected Bin #32 - 9:42 AM</Text>
-      </View>
-      <View style={styles.logItem}>
-        <Text style={styles.logText}>🟢 Route 3 started - 8:15 AM</Text>
-      </View>
-      <View style={styles.logItem}>
-        <Text style={styles.logText}>🟢 Logged in - 7:58 AM</Text>
+      {logs.map((log, index) => (
+        <Text key={index} style={styles.logText}>{log}</Text>
+      ))}
+
+      <Text style={styles.sectionTitle}>Quick Actions</Text>
+      <View style={styles.actionsRow}>
+        <TouchableOpacity style={styles.actionBtn}>
+          <Ionicons name="alert-circle-outline" size={18} color="#fff" />
+          <Text style={styles.actionText}>Report</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionBtn}>
+          <Ionicons name="analytics-outline" size={18} color="#fff" />
+          <Text style={styles.actionText}>Stats</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -57,53 +69,65 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
-    paddingTop: 50,
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
-  headerSpacing: {
+  header: {
     marginBottom: 10,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 10,
-    color: "#2e7d32",
-  },
-  cardRow: {
-    flexDirection: "row",
-    gap: 12,
-    marginBottom: 20,
+    fontSize: 16,
+    fontWeight: '600',
+    marginVertical: 8,
+    color: '#2e7d32',
   },
   card: {
-    flex: 1,
-    backgroundColor: "#e8f5e9",
-    padding: 16,
-    borderRadius: 10,
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  cardTitle: {
-    fontSize: 14,
-    color: "#388e3c",
-  },
-  cardValue: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1b5e20",
-    marginTop: 6,
-  },
-  logItem: {
-    backgroundColor: "#f1f8e9",
+    backgroundColor: '#f0f4f0',
     padding: 12,
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 8,
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  cardSub: {
+    fontSize: 12,
+    color: '#555',
+  },
+  cardValue: {
+    fontSize: 13,
+    color: '#2e7d32',
+    marginTop: 4,
   },
   logText: {
-    fontSize: 14,
-    color: "#2e7d32",
+    fontSize: 13,
+    color: '#444',
+    marginBottom: 6,
+    backgroundColor: '#f7f7f7',
+    padding: 8,
+    borderRadius: 6,
+  },
+  actionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    gap: 8,
+  },
+  actionBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2e7d32',
+    paddingVertical: 10,
+    borderRadius: 6,
+  },
+  actionText: {
+    color: '#fff',
+    marginLeft: 5,
+    fontSize: 13,
+    fontWeight: '500',
   },
 });

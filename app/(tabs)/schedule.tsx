@@ -15,7 +15,7 @@ export default function ScheduleScreen() {
         onNotificationPress={() => console.log("Notifications clicked")}
         onProfilePress={() => console.log("Profile clicked")}
       />
-      <Text style={styles.title}>Your Collection Schedule</Text>
+      <Text style={styles.title}>Today's Collection Schedule</Text>
 
       <Calendar
         markedDates={markedDates}
@@ -55,12 +55,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#2e7d32",
+    color: "#000",
     marginBottom: 6,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 16,
-  },
+
 });

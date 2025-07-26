@@ -70,17 +70,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingTop: 16,
   },
   header: {
+    marginTop: 44,
     marginBottom: 10,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
-    marginVertical: 8,
-    color: '#2e7d32',
+    marginBottom: 10,
+    color: '#000',
   },
   card: {
     backgroundColor: '#f0f4f0',

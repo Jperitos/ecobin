@@ -4,7 +4,7 @@ import { Animated, Image, Pressable, Text, View, useWindowDimensions } from "rea
 
 export default function WelcomeScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const { height } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -21,10 +21,11 @@ export default function WelcomeScreen() {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          paddingHorizontal: 24,
+          paddingHorizontal: width * 0.05,
           opacity: fadeAnim,
         }}
       >
+        {/* Logo */}
         <View
           style={{
             position: "absolute",
@@ -34,20 +35,26 @@ export default function WelcomeScreen() {
         >
           <Image
             source={require("@/assets/icon/logo-final2.png")}
-            style={{ width: 250, height: 250, resizeMode: "contain", marginTop: 100 }}
+            style={{
+              width: width * 0.6,
+              height: width * 0.6,
+              resizeMode: "contain",
+              marginTop: height * 0.05,
+            }}
           />
         </View>
 
+        {/* Text and Button */}
         <View
           style={{
             alignItems: "center",
-            paddingHorizontal: 20,
-            marginTop: height * 0.25,
+            paddingHorizontal: width * 0.05,
+            marginTop: height * 0.4,
           }}
         >
           <Text
             style={{
-              fontSize: 30,
+              fontSize: width * 0.075,
               fontFamily: "Poppins_700Bold",
               fontWeight: "bold",
               marginBottom: 10,
@@ -60,7 +67,7 @@ export default function WelcomeScreen() {
           </Text>
           <Text
             style={{
-              fontSize: 16,
+              fontSize: width * 0.04,
               fontFamily: "Poppins_400Regular",
               lineHeight: 24,
               textAlign: "center",
@@ -73,17 +80,17 @@ export default function WelcomeScreen() {
           <Pressable
             onPress={() => router.push("/(auth)/login")}
             style={{
-              paddingVertical: 10,
-              paddingHorizontal: 28,
+              paddingVertical: height * 0.015,
+              paddingHorizontal: width * 0.15,
               borderRadius: 50,
               alignItems: "center",
-              marginTop: 20,
+              marginTop: height * 0.03,
               backgroundColor: "#347433",
             }}
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: width * 0.04,
                 fontFamily: "Poppins_400Regular",
                 color: "#ffffff",
               }}
@@ -93,17 +100,18 @@ export default function WelcomeScreen() {
           </Pressable>
         </View>
 
+        {/* Footer */}
         <View
           style={{
             position: "absolute",
-            bottom: 40,
+            bottom: height * 0.06,
             alignItems: "center",
             width: "100%",
           }}
         >
           <Text
             style={{
-              fontSize: 25,
+              fontSize: width * 0.065,
               fontFamily: "Poppins_700Bold",
               fontWeight: "bold",
               textAlign: "center",
@@ -115,7 +123,7 @@ export default function WelcomeScreen() {
           </Text>
           <Text
             style={{
-              fontSize: 12,
+              fontSize: width * 0.03,
               fontFamily: "Poppins_300Regular",
               marginTop: 2,
               color: "#888888",
@@ -126,17 +134,18 @@ export default function WelcomeScreen() {
         </View>
       </Animated.View>
 
+      {/* Indicator Bar */}
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          marginBottom: 40,
+          marginBottom: height * 0.03,
           gap: 6,
         }}
       >
         <View
           style={{
-            width: 20,
+            width: width * 0.1,
             height: 4,
             borderRadius: 2,
             backgroundColor: "gray",

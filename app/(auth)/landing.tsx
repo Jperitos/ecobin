@@ -11,30 +11,42 @@ import {
   useWindowDimensions,
 } from "react-native";
 
+// ✅ Load Poppins here
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  useFonts,
+} from "@expo-google-fonts/poppins";
+
 export default function WelcomeScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const { height, width } = useWindowDimensions();
 
-  // Simple breakpoints for responsive tweaks (tune as you like)
-  const sm = width < 600;          // phones / small tablets
-  const md = width >= 600 && width < 1024; // tablets / small laptops
-  const lg = width >= 1024;        // desktops / large screens
+  // Load fonts (required so Poppins actually applies on this screen)
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+  });
 
-  // Helpers to "clamp" sizes so they scale but stay readable
+  // Simple breakpoints
+  const sm = width < 600;
+  const md = width >= 600 && width < 1024;
+  const lg = width >= 1024;
+
+  // Helpers to clamp values
   const clamp = (val: number, min: number, max: number) =>
     Math.max(min, Math.min(max, val));
 
-  // Font sizes scale with width but are clamped for readability
-  const titleSize = clamp(width * 0.075, 22, lg ? 40 : 34);      // "WELCOME"
-  const taglineSize = clamp(width * 0.04, 12, lg ? 20 : 18);     // tagline
-  const buttonTextSize = clamp(width * 0.04, 14, lg ? 20 : 18);  // "Sign In"
-  const brandSize = clamp(width * 0.065, 20, lg ? 36 : 32);      // "ECOBIN"
-  const locationSize = clamp(width * 0.03, 10, lg ? 16 : 14);    // "City of Naga, Cebu"
+  // Font sizes scale
+  const titleSize = clamp(width * 0.075, 22, lg ? 40 : 34);
+  const taglineSize = clamp(width * 0.04, 12, lg ? 20 : 18);
+  const buttonTextSize = clamp(width * 0.04, 14, lg ? 20 : 18);
+  const brandSize = clamp(width * 0.065, 20, lg ? 36 : 32);
+  const locationSize = clamp(width * 0.03, 10, lg ? 16 : 14);
 
-  // ↓ NEW: scale everything down slightly
-  const sizeFactor = 0.9;
+  // Slightly smaller
+  const sizeFactor = 0.85;
 
-  // Spacing scales with height/width but remains sensible
   const containerPaddingH = lg ? width * 0.04 : width * 0.05;
   const logoSide = clamp(width * 0.6, sm ? 160 : 220, lg ? 420 : 360);
 
@@ -45,6 +57,9 @@ export default function WelcomeScreen() {
       useNativeDriver: true,
     }).start();
   }, []);
+
+  // Don’t render until fonts are loaded
+  if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -57,7 +72,6 @@ export default function WelcomeScreen() {
           paddingHorizontal: containerPaddingH,
         }}
       >
-        {/* Constrain width on large web screens for better readability */}
         <View
           style={{
             width: "100%",
@@ -77,12 +91,11 @@ export default function WelcomeScreen() {
             }}
           />
 
-          {/* Welcome Text (BOLD ONLY) */}
+          {/* Welcome Text (ONLY bold) */}
           <Text
             style={{
-              fontSize: titleSize * sizeFactor,   // ← smaller
-              fontFamily: "Poppins_600SemiBold",
-              fontWeight: "600",
+              fontSize: titleSize * sizeFactor,
+              fontFamily: "Poppins_700Bold", 
               marginBottom: 10,
               textAlign: "center",
               letterSpacing: sm ? 6 : 4,
@@ -95,8 +108,8 @@ export default function WelcomeScreen() {
           {/* Tagline (Regular) */}
           <Text
             style={{
-              fontSize: taglineSize * sizeFactor, // ← smaller
-              fontFamily: "Poppins_400Regular", 
+              fontSize: taglineSize * sizeFactor,
+              fontFamily: "Poppins_400Regular",  // Poppins Regular
               lineHeight: clamp(taglineSize * 1.4, 18, 30),
               textAlign: "center",
               color: "#555555",
@@ -106,12 +119,12 @@ export default function WelcomeScreen() {
             Where technology meets {"\n"} cleanliness
           </Text>
 
-          {/* Sign In Button (Regular text) */}
+          {/* Sign In Button (Regular) */}
           <Pressable
             onPress={() => router.push("/(auth)/login")}
             style={({ hovered, pressed }) => ({
-              paddingVertical: clamp(height * 0.015, 10, 16),
-              paddingHorizontal: sm ? 28 : md ? 36 : 44,
+              paddingVertical: clamp(height * 0.030, 10, 16),
+              paddingHorizontal: sm ? 35 : md ? 36 : 44,
               borderRadius: 50,
               alignItems: "center",
               backgroundColor:
@@ -125,8 +138,8 @@ export default function WelcomeScreen() {
           >
             <Text
               style={{
-                fontSize: buttonTextSize * sizeFactor, // ← smaller
-                fontFamily: "Poppins_400Regular",
+                fontSize: buttonTextSize * sizeFactor,
+                fontFamily: "Poppins_400Regular", // Poppins Regular
                 color: "#ffffff",
               }}
             >
@@ -145,12 +158,11 @@ export default function WelcomeScreen() {
             paddingHorizontal: 16,
           }}
         >
-          {/* ECOBIN (BOLD ONLY) */}
+          {/* ECOBIN (ONLY bold) */}
           <Text
             style={{
-              fontSize: brandSize * sizeFactor,    // ← smaller
-              fontFamily: "Poppins_600Bold",       // keeping your current family
-              fontWeight: "600",
+              fontSize: brandSize * sizeFactor,
+              fontFamily: "Poppins_600SemiBold", // use SemiBold here (was invalid "Poppins_600Bold")
               textAlign: "center",
               letterSpacing: sm ? 2 : 4,
               color: "#000000",
@@ -158,11 +170,12 @@ export default function WelcomeScreen() {
           >
             ECOBIN
           </Text>
+
           {/* Location (Regular) */}
           <Text
             style={{
-              fontSize: locationSize * sizeFactor, // ← smaller
-              fontFamily: "Poppins_400Regular",
+              fontSize: locationSize * sizeFactor,
+              fontFamily: "Poppins_400Regular", // Poppins Regular
               marginTop: 2,
               color: "#888888",
               textAlign: "center",
@@ -173,7 +186,7 @@ export default function WelcomeScreen() {
         </View>
       </Animated.View>
 
-      {/* Indicator Bar (kept subtle and responsive) */}
+      {/* Indicator Bar */}
       <View
         style={{
           flexDirection: "row",

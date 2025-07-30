@@ -63,32 +63,55 @@ export default function ScheduleScreen() {
         onDayPress={handleDayPress}
       />
 
-      {/* Modal for selected date */}
+      {/* Schedule Details Modal */}
       <Modal
         visible={modalVisible}
         transparent
-        animationType="fade"           // <-- pop up (fade), not slide
+        animationType="fade"
         presentationStyle="overFullScreen"
         statusBarTranslucent
+        onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
+        <Pressable
+          style={styles.modalBackground}
+          onPress={() => setModalVisible(false)}
+        >
+          <Pressable
+            style={styles.modalContainer}
+            onPress={(e) => e.stopPropagation()}
+          >
+            <Pressable
+              accessibilityLabel="Close"
+              onPress={() => setModalVisible(false)}
+              hitSlop={12}
+              style={styles.closeIcon}
+            >
+              <Text style={styles.closeIconText}>×</Text>
+            </Pressable>
+
             <Text style={styles.modalTitle}>Schedule Details</Text>
+
             {selectedDate && (
               <>
-                <Text>Date: {selectedDate}</Text>
-                <Text>Time: {collectorSchedule[selectedDate].time}</Text>
-                <Text>Collector: {collectorSchedule[selectedDate].collector}</Text>
+                <View style={styles.rowBetween}>
+                  <Text style={styles.label}>Date</Text>
+                  <Text style={styles.value}>{selectedDate}</Text>
+                </View>
+                <View style={styles.rowBetween}>
+                  <Text style={styles.label}>Time</Text>
+                  <Text style={styles.value}>{collectorSchedule[selectedDate].time}</Text>
+                </View>
+                <View style={styles.rowBetween}>
+                  <Text style={styles.label}>Collector</Text>
+                  <Text style={styles.value}>{collectorSchedule[selectedDate].collector}</Text>
+                </View>
               </>
             )}
-            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
 
-      {/* Task Table */}
+      {/* Assigned Task Table (optional / separate) */}
       <Text style={styles.taskTitle}>Assigned Tasks</Text>
       <FlatList
         data={userTasks}
@@ -135,24 +158,41 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "80%",
+    width: "88%",
     elevation: 5,
+    position: "relative",
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: "700",
-    marginBottom: 10,
+    marginBottom: 14,
+    color: "#111",
   },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: "#2e7d32",
-    paddingVertical: 8,
-    borderRadius: 6,
+  closeIcon: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    padding: 8,
+    zIndex: 10,
   },
-  closeButtonText: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "bold",
+  closeIconText: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#2e7d32",
+    lineHeight: 22,
+  },
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  label: {
+    fontWeight: "600",
+    color: "#333",
+  },
+  value: {
+    color: "#111",
+    fontWeight: "600",
   },
   taskTitle: {
     fontSize: 18,

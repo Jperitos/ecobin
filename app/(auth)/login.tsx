@@ -1,10 +1,11 @@
+// app/(auth)/login.tsx
 import { AntDesign, FontAwesome, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
+  Image as RNImage,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,7 +14,34 @@ import {
   View,
 } from "react-native";
 
+import {
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  useFonts,
+} from "@expo-google-fonts/poppins";
+
+import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
+
+const poppins = {
+  light: "Poppins_300Light",
+  regular: "Poppins_400Regular",
+  medium: "Poppins_500Medium",
+  semibold: "Poppins_600SemiBold",
+  bold: "Poppins_700Bold",
+} as const;
+
 export default function LoginScreen() {
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +54,8 @@ export default function LoginScreen() {
       router.replace("/(tabs)/home");
     }, 1500);
   };
+
+  if (!fontsLoaded) return null;
 
   return (
     <KeyboardAvoidingView
@@ -42,9 +72,9 @@ export default function LoginScreen() {
 
         {/* Branding */}
         <View style={styles.upperContainer}>
-          <Image source={require("@/assets/icon/logo-final2.png")} style={styles.logo} />
+          <RNImage source={require("@/assets/icon/logo-final2.png")} style={styles.logo} />
           <Text style={styles.logoText}>ECOBIN</Text>
-          <Text style={styles.description}> Your cleaner choices start here </Text>
+          <Text style={styles.description}>Your cleaner choices start here</Text>
         </View>
 
         {/* Inputs */}
@@ -74,7 +104,10 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => router.push("/forgot-password")}>
+          <TouchableOpacity
+            style={styles.forgotPasswordContainer}
+            onPress={() => router.push("/forgot-password")}
+          >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
@@ -116,7 +149,30 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<{
+  scrollContainer: ViewStyle;
+  header: ViewStyle;
+  logo: ImageStyle;
+  logoText: TextStyle;
+  upperContainer: ViewStyle;
+  description: TextStyle;
+  inputContainer: ViewStyle;
+  label: TextStyle;
+  input: TextStyle;
+  passwordWrapper: ViewStyle;
+  passwordInput: TextStyle;
+  eyeIcon: ViewStyle;
+  forgotPasswordContainer: ViewStyle;
+  forgotPasswordText: TextStyle;
+  loginButton: ViewStyle;
+  loginButtonText: TextStyle;
+  disabledButton: ViewStyle;
+  IconsContainer: ViewStyle;
+  signWith: TextStyle;
+  socialContainer: ViewStyle;
+  signInPrompt: TextStyle;
+  signInLink: TextStyle;
+}>({
   scrollContainer: {
     flexGrow: 1,
     justifyContent: "center",
@@ -130,19 +186,23 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginBottom: 12,
+    resizeMode: "contain",
   },
+
   logoText: {
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: poppins.bold, 
     color: "#2e7d32",
     letterSpacing: 2,
   },
+
   upperContainer: {
     alignItems: "center",
     marginBottom: 24,
   },
   description: {
-    fontSize: 14,
+    fontSize: 12,
+    fontFamily: poppins.regular,
     color: "#555",
     textAlign: "center",
     lineHeight: 22,
@@ -152,25 +212,29 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   label: {
-    fontSize: 14,
+    fontSize: 13,
+    fontFamily: poppins.regular,
     color: "#333",
-    marginBottom: 4,
+    marginBottom: 8,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
-    backgroundColor: "#f9f9f9",
-    padding: 12,
+    padding: 14,
     borderRadius: 8,
-    fontSize: 14,
+    fontSize: 13,
     color: "#000",
+    fontFamily: poppins.regular, 
   },
+
   passwordWrapper: {
     position: "relative",
     justifyContent: "center",
   },
   passwordInput: {
     paddingRight: 40,
+    fontSize: 13,
+    fontFamily: poppins.regular,
   },
   eyeIcon: {
     position: "absolute",
@@ -183,6 +247,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontSize: 13,
+    fontFamily: poppins.regular,
     color: "#2e7d32",
   },
   loginButton: {
@@ -193,13 +258,11 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 20,
   },
-
   loginButtonText: {
     color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 14,
+    fontFamily: poppins.regular,
   },
-
   disabledButton: {
     backgroundColor: "#2e7d32",
   },
@@ -210,6 +273,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#555",
     fontSize: 13,
+    fontFamily: poppins.regular,
   },
   socialContainer: {
     flexDirection: "row",
@@ -222,10 +286,12 @@ const styles = StyleSheet.create({
     color: "#444",
     textAlign: "center",
     marginTop: 20,
+    fontFamily: poppins.regular,
   },
   signInLink: {
     fontSize: 13,
     color: "#2e7d32",
-    fontWeight: "600",
+    fontFamily: poppins.regular,
+    textDecorationLine: "underline", 
   },
 });

@@ -1,9 +1,16 @@
 import Input from "@/components/fields/Input";
 import Label from "@/components/fields/Label";
+import { Poppins_400Regular, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
 import { AntDesign, FontAwesome, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+
+const poppins = {
+  regular: "Poppins_400Regular",
+  bold: "Poppins_700Bold",
+} as const;
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState("");
@@ -13,6 +20,12 @@ export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
+
   const handleRegister = () => {
     setLoading(true);
     setTimeout(() => {
@@ -20,6 +33,8 @@ export default function RegisterScreen() {
       router.replace("/(auth)/login");
     }, 1500);
   };
+
+  if (!fontsLoaded) return null;
 
   return (
     <KeyboardAvoidingView
@@ -37,19 +52,21 @@ export default function RegisterScreen() {
 
         {/* Logo + Brand */}
         <View style={styles.upperContainer}>
+          <Image source={require("@/assets/icon/logo-final2.png")} style={styles.logo} />
+          {/* Only ECOBIN is bold */}
           <Text style={styles.logoText}>ECOBIN</Text>
           <Text style={styles.description}>Your cleaner choices start here</Text>
         </View>
 
         {/* Inputs */}
-        <View style={styles.InputContainer}>
-          <Label>Full Name</Label>
+       <View style={styles.InputContainer}>
+          <Label style={styles.label}>Full Name</Label>
           <Input placeholder="Enter your full name" value={fullName} onChangeText={setFullName} />
 
-          <Label style={{ marginTop: 16 }}>Email</Label>
+          <Label style={[styles.label, { marginTop: 16 }]}>Email</Label>
           <Input placeholder="Enter your email" value={email} onChangeText={setEmail} keyboardType="email-address" />
 
-          <Label style={{ marginTop: 16 }}>Password</Label>
+          <Label style={[styles.label, { marginTop: 16 }]}>Password</Label>
           <View style={styles.passwordWrapper}>
             <Input
               placeholder="Enter your password"
@@ -62,7 +79,7 @@ export default function RegisterScreen() {
             </TouchableOpacity>
           </View>
 
-          <Label style={{ marginTop: 16 }}>Confirm Password</Label>
+          <Label style={[styles.label, { marginTop: 16 }]}>Confirm Password</Label>
           <View style={styles.passwordWrapper}>
             <Input
               placeholder="Re-enter your password"
@@ -71,19 +88,17 @@ export default function RegisterScreen() {
               secureTextEntry={!showConfirmPassword}
             />
             <TouchableOpacity onPress={() => setShowConfirmPassword((prev) => !prev)} style={styles.eyeIcon}>
-              <Ionicons
-                name={showConfirmPassword ? "eye-off" : "eye"}
-                size={18}
-                color="#999"
-                style={{ marginTop: 5 }}
-              />
+              <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={18} color="#999" style={{ marginTop: 5 }} />
             </TouchableOpacity>
           </View>
         </View>
 
+
         {/* Register Button */}
         <TouchableOpacity style={styles.registerButton} onPress={handleRegister} disabled={loading}>
-          <Text style={styles.registerButtonText}>{loading ? "Creating Account..." : "Create Account"}</Text>
+          <Text style={styles.registerButtonText}>
+            {loading ? "Creating Account..." : "Create Account"}
+          </Text>
         </TouchableOpacity>
 
         {/* Social Sign-In */}
@@ -128,9 +143,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   headerTitle: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 14,
     color: "#333",
+    fontFamily: poppins.regular,
   },
   logo: {
     width: 100,
@@ -139,10 +154,15 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 26,
-    fontWeight: "bold",
-    color: "#2e7d32", // green
+    color: "#2e7d32",
     letterSpacing: 2,
+    fontFamily: poppins.bold,
   },
+  label: {
+  fontSize: 13,
+  fontFamily: poppins.regular,
+  color: "#333",
+},
   upperContainer: {
     alignItems: "center",
     marginTop: 20,
@@ -153,6 +173,7 @@ const styles = StyleSheet.create({
     color: "#555",
     textAlign: "center",
     lineHeight: 22,
+    fontFamily: poppins.regular,
   },
   InputContainer: {
     width: "100%",
@@ -179,8 +200,8 @@ const styles = StyleSheet.create({
   },
   registerButtonText: {
     color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 14,
+    fontFamily: poppins.regular,
   },
   IconsContainer: {
     marginTop: 10,
@@ -189,6 +210,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#555",
     fontSize: 13,
+    fontFamily: poppins.regular,
   },
   socialContainer: {
     flexDirection: "row",
@@ -202,10 +224,12 @@ const styles = StyleSheet.create({
     color: "#444",
     textAlign: "center",
     marginTop: 20,
+    fontFamily: poppins.regular,
   },
   signInLink: {
     fontSize: 13,
     color: "#2e7d32",
-    fontWeight: "600",
+    fontFamily: poppins.regular, 
+    textDecorationLine: "underline", 
   },
 });

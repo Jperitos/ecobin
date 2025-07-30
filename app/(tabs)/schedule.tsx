@@ -13,14 +13,12 @@ export default function ScheduleScreen() {
     "2025-07-29": { marked: true, dotColor: "#2e7d32" },
   };
 
-  // Example assigned collector data
   const collectorSchedule: Record<string, { time: string; collector: string }> = {
     "2025-07-24": { time: "9:00 AM", collector: "Collector A" },
     "2025-07-26": { time: "10:00 AM", collector: "Collector B" },
     "2025-07-29": { time: "8:30 AM", collector: "Collector C" },
   };
 
-  // Sample task assignments (for the table)
   const userTasks = [
     { id: "1", date: "2025-07-24", area: "Zone 1", task: "Collect Bin A" },
     { id: "2", date: "2025-07-26", area: "Zone 3", task: "Collect Bin C" },
@@ -66,7 +64,13 @@ export default function ScheduleScreen() {
       />
 
       {/* Modal for selected date */}
-      <Modal visible={modalVisible} transparent animationType="slide">
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"           // <-- pop up (fade), not slide
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+      >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Schedule Details</Text>

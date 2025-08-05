@@ -1,15 +1,17 @@
 import Header from '@/components/Header';
+import { RootStackParamList } from '@/types/navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { RootStackParamList } from '../navigation';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+const router = useRouter();
 
   const handleNotificationPress = () => {
     navigation.navigate('NotificationScreen');
@@ -19,6 +21,10 @@ export default function HomeScreen() {
     navigation.navigate('ProfileScreen');
   };
 
+
+const handleBinPress = (binId: string) => {
+  router.push(`/home/bin-details?binId=${binId}`);
+};
   const bins = [
     { id: 'Bin A1', level: 85, location: 'Main Entrance' },
     { id: 'Bin B2', level: 40, location: 'Cafeteria' },
@@ -31,6 +37,12 @@ export default function HomeScreen() {
     '🟢 Logged In – 7:58 AM',
   ];
 
+  const getFillColor = (level: number) => {
+    if (level <= 50) return '#4caf50';
+    if (level <= 80) return '#ff9800';
+    return '#f44336';
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={styles.header}>
@@ -39,11 +51,24 @@ export default function HomeScreen() {
 
       <Text style={styles.sectionTitle}>Bin Overview</Text>
       {bins.map((bin, index) => (
-        <View key={index} style={styles.card}>
-          <Text style={styles.cardTitle}>{bin.id}</Text>
-          <Text style={styles.cardSub}>{bin.location}</Text>
+        <TouchableOpacity key={index} onPress={() => handleBinPress(bin.id)} style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.cardTitle}>{bin.id}</Text>
+            <Text style={styles.cardSub}>{bin.location}</Text>
+          </View>
+          <View style={styles.progressBarContainer}>
+            <View
+              style={[
+                styles.progressBarFill,
+                {
+                  width: `${bin.level}%`,
+                  backgroundColor: getFillColor(bin.level),
+                },
+              ]}
+            />
+          </View>
           <Text style={styles.cardValue}>{bin.level}% full</Text>
-        </View>
+        </TouchableOpacity>
       ))}
 
       <Text style={styles.sectionTitle}>Activity Logs</Text>
@@ -85,22 +110,36 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#f0f4f0',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 12,
+  },
+  cardHeader: {
+    marginBottom: 6,
   },
   cardTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
+    color: '#333',
   },
   cardSub: {
-    fontSize: 12,
-    color: '#555',
+    fontSize: 13,
+    color: '#666',
+  },
+  progressBarContainer: {
+    height: 10,
+    backgroundColor: '#ddd',
+    borderRadius: 6,
+    overflow: 'hidden',
+    marginVertical: 8,
+  },
+  progressBarFill: {
+    height: '100%',
+    borderRadius: 6,
   },
   cardValue: {
     fontSize: 13,
-    color: '#2e7d32',
-    marginTop: 4,
+    color: '#333',
   },
   logText: {
     fontSize: 13,

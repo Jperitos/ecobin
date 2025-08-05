@@ -13,16 +13,29 @@ export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const router = useRouter();
 
+  const logs = [
+    "🟢 Emptied Bin A1 – 9:42 AM",
+    "🟢 Route B2 Started – 8:15 AM",
+    "🟢 Logged In – 7:58 AM",
+    "🟢 Emptied Bin B2 – Yesterday 6:12 PM",
+    "🟢 Emptied Bin C3 – 2 days ago 3:30 PM",
+  ];
+
   const handleBinPress = (binId: string) => {
-    router.push(`/home/bin-details?binId=${binId}`);
+    router.push({
+      pathname: "/home/bin-details",
+      params: {
+        binId,
+        logs: JSON.stringify(logs),
+      },
+    });
   };
+
   const bins = [
     { id: "Bin A1", level: 85, location: "Main Entrance" },
     { id: "Bin B2", level: 40, location: "Cafeteria" },
     { id: "Bin C3", level: 20, location: "Library Hall" },
   ];
-
-  const logs = ["🟢 Emptied Bin A1 – 9:42 AM", "🟢 Route B2 Started – 8:15 AM", "🟢 Logged In – 7:58 AM"];
 
   const getFillColor = (level: number) => {
     if (level <= 50) return "#4caf50";

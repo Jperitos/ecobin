@@ -1,22 +1,9 @@
 import { router } from "expo-router";
 import React, { useEffect, useRef } from "react";
-import {
-  Animated,
-  Image,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
+import { Animated, Image, Platform, Pressable, SafeAreaView, Text, View, useWindowDimensions } from "react-native";
 
 // ✅ Load Poppins here
-import {
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
+import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from "@expo-google-fonts/poppins";
 
 export default function WelcomeScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -34,8 +21,7 @@ export default function WelcomeScreen() {
   const lg = width >= 1024;
 
   // Helpers to clamp values
-  const clamp = (val: number, min: number, max: number) =>
-    Math.max(min, Math.min(max, val));
+  const clamp = (val: number, min: number, max: number) => Math.max(min, Math.min(max, val));
 
   // Font sizes scale
   const titleSize = clamp(width * 0.075, 22, lg ? 40 : 34);
@@ -95,7 +81,7 @@ export default function WelcomeScreen() {
           <Text
             style={{
               fontSize: titleSize * sizeFactor,
-              fontFamily: "Poppins_700Bold", 
+              fontFamily: "Poppins_700Bold",
               marginBottom: 10,
               textAlign: "center",
               letterSpacing: sm ? 6 : 4,
@@ -109,7 +95,7 @@ export default function WelcomeScreen() {
           <Text
             style={{
               fontSize: taglineSize * sizeFactor,
-              fontFamily: "Poppins_400Regular",  // Poppins Regular
+              fontFamily: "Poppins_400Regular", // Poppins Regular
               lineHeight: clamp(taglineSize * 1.4, 18, 30),
               textAlign: "center",
               color: "#555555",
@@ -123,16 +109,11 @@ export default function WelcomeScreen() {
           <Pressable
             onPress={() => router.push("/(auth)/login")}
             style={({ hovered, pressed }) => ({
-              paddingVertical: clamp(height * 0.030, 10, 16),
+              paddingVertical: clamp(height * 0.03, 10, 16),
               paddingHorizontal: sm ? 35 : md ? 36 : 44,
               borderRadius: 50,
               alignItems: "center",
-              backgroundColor:
-                hovered && Platform.OS === "web"
-                  ? "#2d652c"
-                  : pressed
-                  ? "#2f6b2e"
-                  : "#347433",
+              backgroundColor: hovered && Platform.OS === "web" ? "#2d652c" : pressed ? "#2f6b2e" : "#347433",
               transform: pressed ? [{ scale: 0.98 }] : undefined,
             })}
           >

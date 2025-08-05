@@ -10,20 +10,20 @@ export default function TabLayout() {
   const { width } = useWindowDimensions();
 
   // --- Responsive breakpoints
-  const compact = width < 480;                 // phones
-  const medium  = width >= 480 && width < 1024; // tablets / small laptops
-  const large   = width >= 1024;               // desktops / large screens
-  const isWeb   = Platform.OS === "web";
+  const compact = width < 480; // phones
+  const medium = width >= 480 && width < 1024; // tablets / small laptops
+  const large = width >= 1024; // desktops / large screens
+  const isWeb = Platform.OS === "web";
 
   // --- Colors
-  const backgroundColor   = isDark ? "#1c1c1e" : "#ffffffee";
-  const activeTintColor   = isDark ? "#90ee90" : "#2e7d32";
-  const inactiveTintColor = isDark ? "#ccc"     : "#9e9e9e";
+  const backgroundColor = isDark ? "#1c1c1e" : "#ffffffee";
+  const activeTintColor = isDark ? "#90ee90" : "#2e7d32";
+  const inactiveTintColor = isDark ? "#ccc" : "#9e9e9e";
 
   // --- Sizes (↑ height a bit; ↓ padding so text fits cleanly)
-  const barHeight   = compact ? 68 : medium ? 70 : 74;  // was 64/66/70
-  const barRadius   = compact ? 18 : medium ? 20 : 22;
-  const iconSize    = compact ? 10 : medium ? 18 : 18;  // your sizes
+  const barHeight = compact ? 68 : medium ? 70 : 74; // was 64/66/70
+  const barRadius = compact ? 18 : medium ? 20 : 22;
+  const iconSize = compact ? 10 : medium ? 18 : 18; // your sizes
   const labelFontSize = compact ? 10 : medium ? 10 : 11; // a touch smaller for fit
 
   // lineHeight to prevent clipping; slight headroom
@@ -34,9 +34,7 @@ export default function TabLayout() {
   const maxBarWidth = 900;
   const computedBarWidth = isWeb ? Math.min(width - horizontalMargin * 2, maxBarWidth) : undefined;
 
-  const leftPosition = isWeb
-    ? Math.max((width - (computedBarWidth ?? width)) / 2, horizontalMargin)
-    : horizontalMargin;
+  const leftPosition = isWeb ? Math.max((width - (computedBarWidth ?? width)) / 2, horizontalMargin) : horizontalMargin;
 
   const bottomOffset = Math.max(insets.bottom, compact ? 8 : 12);
 
@@ -47,7 +45,7 @@ export default function TabLayout() {
     height: barHeight,
     backgroundColor,
     borderRadius: barRadius,
-    paddingTop: compact ? 4 : 6,   // was 6/8
+    paddingTop: compact ? 4 : 6, // was 6/8
     paddingBottom: compact ? 8 : 10, // was 10/12
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },

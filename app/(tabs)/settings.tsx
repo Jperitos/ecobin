@@ -3,16 +3,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import {
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function SettingsScreen() {
   const { isDarkMode, toggleDarkMode } = useTheme();
@@ -41,22 +32,14 @@ export default function SettingsScreen() {
   const borderColor = isDarkMode ? "#333" : "#eee";
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: bgColor }]}
-      contentInsetAdjustmentBehavior="automatic"
-    >
+    <ScrollView style={[styles.container, { backgroundColor: bgColor }]} contentInsetAdjustmentBehavior="automatic">
       {/* Profile Header */}
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
-          <Image
-            source={{ uri: "https://i.pravatar.cc/100?u=user" }}
-            style={styles.avatar}
-          />
+          <Image source={{ uri: "https://i.pravatar.cc/100?u=user" }} style={styles.avatar} />
           <View>
             <Text style={[styles.name, { color: textColor }]}>Angel Canete</Text>
-            <Text style={[styles.username, { color: secondaryTextColor }]}>
-              @angelcanete@gmail.com
-            </Text>
+            <Text style={[styles.username, { color: secondaryTextColor }]}>@angelcanete@gmail.com</Text>
           </View>
         </View>
         <View style={[styles.divider, { backgroundColor: borderColor }]} />
@@ -141,16 +124,8 @@ function SettingRow({ label, icon, onPress, isDestructive = false, isDarkMode }:
   return (
     <TouchableOpacity style={styles.row} onPress={onPress}>
       <View style={styles.rowLeft}>
-        <Feather
-          name={icon}
-          size={20}
-          color={isDestructive ? "#ff3b30" : isDarkMode ? "#ccc" : "#555"}
-        />
-        <Text
-          style={[styles.label, { color: isDestructive ? "#ff3b30" : isDarkMode ? "#fff" : "#222" }]}
-        >
-          {label}
-        </Text>
+        <Feather name={icon} size={20} color={isDestructive ? "#ff3b30" : isDarkMode ? "#ccc" : "#555"} />
+        <Text style={[styles.label, { color: isDestructive ? "#ff3b30" : isDarkMode ? "#fff" : "#222" }]}>{label}</Text>
       </View>
       <Ionicons name="chevron-forward" size={16} color={isDarkMode ? "#666" : "#aaa"} />
     </TouchableOpacity>

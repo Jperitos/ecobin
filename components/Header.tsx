@@ -1,35 +1,30 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-
+import { Image, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 interface HeaderProps {
   showIcons?: boolean;
   style?: ViewStyle;
-  onNotificationPress?: () => void;
-  onProfilePress?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  showIcons = true,
-  style,
-  onNotificationPress,
-  onProfilePress,
-}) => {
+const Header: React.FC<HeaderProps> = ({ showIcons = true, style }) => {
+  const router = useRouter();
+
   return (
     <View style={[styles.headerContainer, style]}>
-      <Image
-        source={require("@/assets/icon/logo-final2.png")}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      <Image source={require("@/assets/icon/logo-final2.png")} style={styles.logo} resizeMode="contain" />
 
+      {/* Centered Text */}
+      <Text style={styles.centerText}>Ecobin</Text>
+
+      {/* Icons (right-aligned) */}
       {showIcons && (
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={onNotificationPress}>
+          <TouchableOpacity onPress={() => router.push("/screens/notification")}>
             <Ionicons name="notifications-outline" size={24} color="#000" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onProfilePress}>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/settings")}>
             <Ionicons name="person-circle-outline" size={26} color="#000" />
           </TouchableOpacity>
         </View>
@@ -44,6 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: 20,
+    paddingTop: 0,
     backgroundColor: "#fff",
   },
   logo: {
@@ -54,6 +50,15 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: "row",
     gap: 12,
+  },
+  centerText: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#000",
   },
 });
 

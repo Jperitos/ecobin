@@ -1,52 +1,39 @@
-import Header from '@/components/Header';
-import { RootStackParamList } from '@/types/navigation';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Header from "@/components/Header";
+import { RootStackParamList } from "@/types/navigation";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useRouter } from "expo-router";
+import React from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-const router = useRouter();
+  const router = useRouter();
 
-  const handleNotificationPress = () => {
-    navigation.navigate('NotificationScreen');
+  const handleBinPress = (binId: string) => {
+    router.push(`/home/bin-details?binId=${binId}`);
   };
-
-  const handleProfilePress = () => {
-    navigation.navigate('ProfileScreen');
-  };
-
-
-const handleBinPress = (binId: string) => {
-  router.push(`/home/bin-details?binId=${binId}`);
-};
   const bins = [
-    { id: 'Bin A1', level: 85, location: 'Main Entrance' },
-    { id: 'Bin B2', level: 40, location: 'Cafeteria' },
-    { id: 'Bin C3', level: 20, location: 'Library Hall' },
+    { id: "Bin A1", level: 85, location: "Main Entrance" },
+    { id: "Bin B2", level: 40, location: "Cafeteria" },
+    { id: "Bin C3", level: 20, location: "Library Hall" },
   ];
 
-  const logs = [
-    '🟢 Emptied Bin A1 – 9:42 AM',
-    '🟢 Route B2 Started – 8:15 AM',
-    '🟢 Logged In – 7:58 AM',
-  ];
+  const logs = ["🟢 Emptied Bin A1 – 9:42 AM", "🟢 Route B2 Started – 8:15 AM", "🟢 Logged In – 7:58 AM"];
 
   const getFillColor = (level: number) => {
-    if (level <= 50) return '#4caf50';
-    if (level <= 80) return '#ff9800';
-    return '#f44336';
+    if (level <= 50) return "#4caf50";
+    if (level <= 80) return "#ff9800";
+    return "#f44336";
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={styles.header}>
-        <Header onNotificationPress={handleNotificationPress} onProfilePress={handleProfilePress} />
+        <Header />
       </View>
 
       <Text style={styles.sectionTitle}>Bin Overview</Text>
@@ -73,7 +60,9 @@ const handleBinPress = (binId: string) => {
 
       <Text style={styles.sectionTitle}>Activity Logs</Text>
       {logs.map((log, index) => (
-        <Text key={index} style={styles.logText}>{log}</Text>
+        <Text key={index} style={styles.logText}>
+          {log}
+        </Text>
       ))}
 
       <Text style={styles.sectionTitle}>Quick Actions</Text>
@@ -94,7 +83,7 @@ const handleBinPress = (binId: string) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingTop: 16,
   },
@@ -104,12 +93,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
-    color: '#000',
+    color: "#000",
   },
   card: {
-    backgroundColor: '#f0f4f0',
+    backgroundColor: "#f0f4f0",
     padding: 14,
     borderRadius: 10,
     marginBottom: 12,
@@ -119,55 +108,55 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   cardSub: {
     fontSize: 13,
-    color: '#666',
+    color: "#666",
   },
   progressBarContainer: {
     height: 10,
-    backgroundColor: '#ddd',
+    backgroundColor: "#ddd",
     borderRadius: 6,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginVertical: 8,
   },
   progressBarFill: {
-    height: '100%',
+    height: "100%",
     borderRadius: 6,
   },
   cardValue: {
     fontSize: 13,
-    color: '#333',
+    color: "#333",
   },
   logText: {
     fontSize: 13,
-    color: '#444',
+    color: "#444",
     marginBottom: 6,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: "#f7f7f7",
     padding: 8,
     borderRadius: 6,
   },
   actionsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
     gap: 8,
   },
   actionBtn: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#2e7d32',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#2e7d32",
     paddingVertical: 10,
     borderRadius: 6,
   },
   actionText: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 5,
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

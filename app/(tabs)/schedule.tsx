@@ -35,10 +35,7 @@ export default function ScheduleScreen() {
 
   return (
     <View style={styles.container}>
-      <Header
-        onNotificationPress={() => console.log("Notifications clicked")}
-        onProfilePress={() => console.log("Profile clicked")}
-      />
+      <Header />
       <Text style={styles.title}>Today's Collection Schedule</Text>
 
       <Calendar
@@ -72,14 +69,8 @@ export default function ScheduleScreen() {
         statusBarTranslucent
         onRequestClose={() => setModalVisible(false)}
       >
-        <Pressable
-          style={styles.modalBackground}
-          onPress={() => setModalVisible(false)}
-        >
-          <Pressable
-            style={styles.modalContainer}
-            onPress={(e) => e.stopPropagation()}
-          >
+        <Pressable style={styles.modalBackground} onPress={() => setModalVisible(false)}>
+          <Pressable style={styles.modalContainer} onPress={(e) => e.stopPropagation()}>
             <Pressable
               accessibilityLabel="Close"
               onPress={() => setModalVisible(false)}

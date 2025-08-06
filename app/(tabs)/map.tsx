@@ -108,7 +108,7 @@ export default function MapScreen() {
       <MapView style={StyleSheet.absoluteFillObject} initialRegion={region}>
         {filteredBins.map((bin) => (
           <Marker key={bin.id} coordinate={{ latitude: bin.latitude, longitude: bin.longitude }}>
-            <Callout tooltip>
+            <Callout>
               <View style={styles.callout}>
                 <Text style={styles.title}>{bin.name}</Text>
                 <Text>Location: {bin.location}</Text>

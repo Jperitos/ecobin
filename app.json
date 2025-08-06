@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "ecobin",
+    "name": "Ecobin",
     "slug": "ecobin",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon/logo-final2.png",
     "scheme": "ecobin",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

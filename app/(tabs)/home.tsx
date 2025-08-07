@@ -14,21 +14,41 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const logs = [
-    "🟢 Emptied Bin A1 – 9:42 AM",
-    "🟢 Route B2 Started – 8:15 AM",
-    "🟢 Logged In – 7:58 AM",
-    "🟢 Emptied Bin B2 – Yesterday 6:12 PM",
-    "🟢 Emptied Bin C3 – 2 days ago 3:30 PM",
+    {
+      type: "emptied",
+      message: "Emptied Bin A1",
+      bin: "A1",
+      location: "Main Entrance",
+      time: "9:42 AM",
+      date: "Today",
+    },
+    {
+      type: "pickup",
+      message: "Picked up Bin B2",
+      bin: "B2",
+      location: "Cafeteria",
+      time: "8:15 AM",
+      date: "Today",
+    },
+    {
+      type: "login",
+      message: "User Logged In",
+      time: "7:58 AM",
+      date: "Today",
+    },
   ];
 
-  const handleBinPress = (binId: string) => {
-    router.push({
-      pathname: "/home/bin-details",
-      params: {
-        binId,
-        logs: JSON.stringify(logs),
-      },
-    });
+  const getBadgeStyle = (type: string) => {
+    switch (type) {
+      case "login":
+        return styles.badgeLogin;
+      case "pickup":
+        return styles.badgePickup;
+      case "emptied":
+        return styles.badgeEmptied;
+      default:
+        return {};
+    }
   };
 
   const bins = [
@@ -41,6 +61,16 @@ export default function HomeScreen() {
     if (level <= 50) return "#4caf50";
     if (level <= 80) return "#ff9800";
     return "#f44336";
+  };
+
+  const handleBinPress = (binId: string) => {
+    router.push({
+      pathname: "/home/bin-details",
+      params: {
+        binId,
+        logs: JSON.stringify(logs),
+      },
+    });
   };
 
   return (
@@ -71,11 +101,33 @@ export default function HomeScreen() {
         </TouchableOpacity>
       ))}
 
-      <Text style={styles.sectionTitle}>Activity Logs</Text>
+      <View style={styles.activityHeader}>
+        <Text style={styles.sectionTitle}>Activity Logs</Text>
+        <TouchableOpacity onPress={() => router.push("/home/activity-logs")}>
+          <Text style={styles.seeAllText}>See All</Text>
+        </TouchableOpacity>
+      </View>
+
       {logs.map((log, index) => (
-        <Text key={index} style={styles.logText}>
-          {log}
-        </Text>
+        <View key={index} style={styles.logCard}>
+          <View style={styles.logTextContainer}>
+            <Text style={styles.logMessage}>{log.message}</Text>
+            <Text style={styles.logTime}>
+              {log.date} – {log.time}
+            </Text>
+            {log.bin && log.location && (
+              <Text style={styles.logSubtext}>
+                📍 Bin {log.bin} – {log.location}
+              </Text>
+            )}
+          </View>
+
+          <View style={styles.rightColumn}>
+            <View style={[styles.typeBadge, getBadgeStyle(log.type)]}>
+              <Text style={styles.badgeText}>{log.type.toUpperCase()}</Text>
+            </View>
+          </View>
+        </View>
       ))}
 
       <Text style={styles.sectionTitle}>Quick Actions</Text>
@@ -143,13 +195,69 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#333",
   },
-  logText: {
+  activityHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  seeAllText: {
+    color: "#2e7d32",
+    fontWeight: "500",
     fontSize: 13,
-    color: "#444",
-    marginBottom: 6,
-    backgroundColor: "#f7f7f7",
-    padding: 8,
+    marginTop: 2,
+  },
+  logCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 12,
+    backgroundColor: "#f4f4f4",
+  },
+  logTextContainer: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  logMessage: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
+  },
+  logTime: {
+    fontSize: 12,
+    color: "#777",
+    marginTop: 4,
+  },
+  logSubtext: {
+    fontSize: 13,
+    color: "#555",
+    marginTop: 4,
+  },
+  rightColumn: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  typeBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 6,
+    backgroundColor: "#ccc",
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "bold",
+  },
+  badgeLogin: {
+    backgroundColor: "#64b5f6",
+  },
+  badgePickup: {
+    backgroundColor: "#ffd54f",
+  },
+  badgeEmptied: {
+    backgroundColor: "#81c784",
   },
   actionsRow: {
     flexDirection: "row",
